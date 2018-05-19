@@ -1,0 +1,7 @@
+name: SimpleLoginMessage
+main: com.xuchaoji.craft.simpleLoginMessage.SimpleLoginMessage
+version: 1.0
+command:
+    slm:
+        description: Broadcast Your Login Message
+        usage: /slm
