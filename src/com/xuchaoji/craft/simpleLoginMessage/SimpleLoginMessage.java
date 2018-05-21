@@ -26,12 +26,13 @@ public class SimpleLoginMessage  extends JavaPlugin implements Listener{
 		//register Listener
 		getServer().getPluginManager().registerEvents(this, this);
 		System.out.println("[SimpleLoginPlugin]加载成功。技术支持联系admin@xuchaoji.com");
+		System.out.println("[SimpleLoginPlugin]loaded! contact admin@xuchaoji.com for help if you need.");
 		
 	}
 	
 	@Override
 	public void onDisable(){
-		
+		//disable plugin 
 	}
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event){
