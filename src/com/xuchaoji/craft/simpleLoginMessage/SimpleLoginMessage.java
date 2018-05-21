@@ -16,12 +16,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class SimpleLoginMessage  extends JavaPlugin implements Listener{
 	FileConfiguration config = getConfig();
+	FileConfiguration itemlist = getConfig();
 	@Override
 	public void onEnable(){
 		config.addDefault("ServerName", "233craft");
 		config.addDefault("BossBarTitle", "§e欢迎来到§d§l233craft");
 		config.addDefault("JoinMessage", "§a成功登录服务器，登录礼物已发放");
 		config.options().copyDefaults(true);
+		saveConfig();
+		for (Material material : Material.values()) {
+			System.out.println(material.name());
+		    itemlist.addDefault(material.name(), material.name());
+		}
+		itemlist.options().copyDefaults(true);
 		saveConfig();
 		//register Listener
 		getServer().getPluginManager().registerEvents(this, this);
@@ -36,12 +43,16 @@ public class SimpleLoginMessage  extends JavaPlugin implements Listener{
 	}
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event){
-		Bukkit.broadcastMessage("§a"+event.getPlayer().getName()+"§a加入了 "+"§e"+config.getString("ServerName"));
-		event.setJoinMessage(config.getString("JoinMessage"));
 		Player player = event.getPlayer();
+		event.setJoinMessage(config.getString("JoinMessage"));
 		ItemStack bread = new ItemStack(Material.BREAD, 3);
 		//给面包
 		player.getInventory().addItem(bread);
+		String rawholdItem = player.getInventory().getItemInMainHand().getType().toString();
+		//替换Material String 为 物品名
+		String holdItem = config.getString(rawholdItem);
+		
+		Bukkit.broadcastMessage("§a"+event.getPlayer().getName()+"§a手持 §d"+ holdItem+ " §a加入了 "+"§e"+config.getString("ServerName"));
 		//使用bossbar显示欢迎语句
 		BossBar bar1 = Bukkit.createBossBar(config.getString("BossBarTitle"), BarColor.YELLOW, BarStyle.SOLID, BarFlag.DARKEN_SKY);
 		bar1.addPlayer(player);
