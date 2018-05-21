@@ -25,8 +25,9 @@ public class SimpleLoginMessage  extends JavaPlugin implements Listener{
 		config.options().copyDefaults(true);
 		saveConfig();
 		for (Material material : Material.values()) {
-			System.out.println(material.name());
-		    itemlist.addDefault(material.name(), material.name());
+			System.out.println("已加载物品："+material.name());
+			String path = "ItemList."+material.name();
+		    itemlist.addDefault(path, material.name());
 		}
 		itemlist.options().copyDefaults(true);
 		saveConfig();
@@ -50,9 +51,10 @@ public class SimpleLoginMessage  extends JavaPlugin implements Listener{
 		player.getInventory().addItem(bread);
 		String rawholdItem = player.getInventory().getItemInMainHand().getType().toString();
 		//替换Material String 为 物品名
-		String holdItem = config.getString(rawholdItem);
+		String path = "ItemList."+rawholdItem;
+		String holdItem = config.getString(path);
 		
-		Bukkit.broadcastMessage("§a"+event.getPlayer().getName()+"§a手持 §d"+ holdItem+ " §a加入了 "+"§e"+config.getString("ServerName"));
+		Bukkit.broadcastMessage("§e"+event.getPlayer().getName()+" §a手持 §d"+ holdItem+ " §a加入了 "+"§e"+config.getString("ServerName"));
 		//使用bossbar显示欢迎语句
 		BossBar bar1 = Bukkit.createBossBar(config.getString("BossBarTitle"), BarColor.YELLOW, BarStyle.SOLID, BarFlag.DARKEN_SKY);
 		bar1.addPlayer(player);
