@@ -22,6 +22,8 @@ public class SimpleLoginMessage  extends JavaPlugin implements Listener{
 		config.addDefault("ServerName", "233craft");
 		config.addDefault("BossBarTitle", "§e欢迎来到§d§l233craft");
 		config.addDefault("JoinMessage", "§a成功登录服务器，登录礼物已发放");
+		config.addDefault("GiftType", "BREAD");
+		config.addDefault("GiftAmount", 3);
 		config.options().copyDefaults(true);
 		saveConfig();
 		for (Material material : Material.values()) {
@@ -45,9 +47,11 @@ public class SimpleLoginMessage  extends JavaPlugin implements Listener{
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
 		event.setJoinMessage(config.getString("JoinMessage"));
-		ItemStack bread = new ItemStack(Material.BREAD, 3);
-		//给面包
-		player.getInventory().addItem(bread);
+		Material giftType =  Material.getMaterial(config.getString("GiftType"));
+		int giftAmount = config.getInt("GiftAmount");
+		ItemStack gift = new ItemStack(giftType, giftAmount);
+		
+		player.getInventory().addItem(gift);
 		String rawholdItem = player.getInventory().getItemInMainHand().getType().toString();
 		//替换Material String 为 物品名
 		String holdItem = config.getString(rawholdItem);
